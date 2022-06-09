@@ -25,7 +25,7 @@ let filename = target.split('/').pop();
 async function main() {
   actions.setOutput(link, driveLink);
 
-  if (fs.lstatSync(target).isDirectory()){
+  if (fs.lstatSync(target).isDirectory()) {
     filename = `${name || target}.zip`
 
     actions.info(`Folder detected in ${target}`)
@@ -39,7 +39,7 @@ async function main() {
       });
   }
   else
-    uploadToDrive();
+    uploadToDrive().catch(e => { throw e; });
 }
 
 /**
@@ -48,7 +48,7 @@ async function main() {
  * @param {string} out Name of the resulting zipped file
  */
 function zipDirectory(source, out) {
-  const archive = archiver('zip', { zlib: { level: 9 }});
+  const archive = archiver('zip', { zlib: { level: 9 } });
   const stream = fs.createWriteStream(out);
 
   return new Promise((resolve, reject) => {
@@ -78,8 +78,12 @@ function uploadToDrive() {
     },
     media: {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
-    }
-  }).then(() => actions.info('File uploaded successfully'))
+    },
+    fields: 'id'
+  }).then((res) => {
+    actions.info('File uploaded successfully ' + res.id)
+  }
+  )
     .catch(e => {
       actions.error('Upload failed');
       throw e;
