@@ -80,12 +80,19 @@ function uploadToDrive() {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
     },
     fields: 'id'
-  }, function(err, file) {
-    actions.info(`File uploaded successfully ${file.id}`)
-  }).catch(e => {
+  }, function (err, file) {
+    if(file) {
+      actions.info(`hahaaha`)
+    }
+
+    if(err) {
       actions.error('Upload failed');
-      throw e;
-    });
+      throw err;
+    } else {
+      actions.info(`File uploaded successfully ${file}`)
+    }
+
+  });
 }
 
 main().catch(e => actions.setFailed(e));
