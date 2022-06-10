@@ -81,7 +81,7 @@ function uploadToDrive() {
     },
     fields: 'id'
   }).then((res) => {
-    actions.info('File uploaded successfully ' + res.id)
+    actions.info(`File uploaded successfully ${res.id}`)
   }
   )
     .catch(e => {
