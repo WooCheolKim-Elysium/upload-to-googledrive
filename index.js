@@ -71,7 +71,7 @@ function zipDirectory(source, out) {
  */
 function uploadToDrive() {
   actions.info('Uploading file to Google Drive...');
-  let fileId = '';
+
   drive.files.create({
     requestBody: {
       name: filename,
@@ -80,18 +80,10 @@ function uploadToDrive() {
     media: {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
     },
-  }, function (file) {
-    if(file) {
-      actions.info(`hahaaha`)
+  }).then(function (response) {
+    if(response) {
+      actions.info(`hahaaha ${response}`)
     }
-
-    // if(err) {
-    //   actions.error('Upload failed');
-    //   throw err;
-    // } else {
-    //   actions.info(`File uploaded successfully ${file} ${fileId}`)
-    // }
-
   });
 }
 
