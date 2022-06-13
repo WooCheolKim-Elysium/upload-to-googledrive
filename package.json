@@ -4,7 +4,7 @@
   "description": "Github action to upload files or folders to Google Drive",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jodebu/upload-to-drive"
+    "url": "git+https://github.com/Jodebu/upload-to-drive.git"
   },
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,9 @@
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Jodebu/upload-to-drive/issues"
+  },
+  "homepage": "https://github.com/Jodebu/upload-to-drive#readme"
 }
