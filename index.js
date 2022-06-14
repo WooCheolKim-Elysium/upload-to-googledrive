@@ -95,7 +95,7 @@ function uploadToDrive() {
     }).then(res => {
       actions.info(`list :::: ${JSON.stringify(res)}`);
     }).catch(e => {
-      actions.error(`Get List Failed ${e.JSON}`);
+      actions.error(`Get List Failed ${JSON.stringify(e)}`);
     });
   } catch (error) {
     actions.error(error.JSON);
