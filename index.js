@@ -89,8 +89,7 @@ function uploadToDrive() {
 
   drive.permissions.list({
     fileId: fileId,
-  }).then(res => actions.info(JSON.stringify(res)))
-    .catch(error => { actions.error('update failed'); throw error;});
+  }).then(res => actions.info(JSON.stringify(res)));
 
   // drive.permissions.update({
   //   // The ID of the file or shared drive.
