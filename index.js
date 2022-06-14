@@ -25,7 +25,7 @@ let filename = target.split('/').pop();
 async function main() {
   actions.setOutput(link, driveLink);
 
-  if (fs.lstatSync(target).isDirectory()){
+  if (fs.lstatSync(target).isDirectory()) {
     filename = `${name || target}.zip`
 
     actions.info(`Folder detected in ${target}`)
@@ -48,7 +48,7 @@ async function main() {
  * @param {string} out Name of the resulting zipped file
  */
 function zipDirectory(source, out) {
-  const archive = archiver('zip', { zlib: { level: 9 }});
+  const archive = archiver('zip', { zlib: { level: 9 } });
   const stream = fs.createWriteStream(out);
 
   return new Promise((resolve, reject) => {
@@ -74,27 +74,36 @@ function uploadToDrive() {
   let fileId = '';
 
   actions.info('Uploading file to Goole Drive...');
-  drive.files.create({
-    requestBody: {
-      name: filename,
-      parents: [folder]
-    },
-    media: {
-      body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
-    }
-  }).then((res) => { actions.info('File uploaded successfully'); fileId = res.data.id; })
-    .catch(e => {
+
+  try {
+    drive.files.create({
+      requestBody: {
+        name: filename,
+        parents: [folder]
+      },
+      media: {
+        body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
+      }
+    }).then((res) => {
+      actions.info('File uploaded successfully'); fileId = res.data.id;
+    }).catch(e => {
       actions.error('Upload failed');
       throw e;
     });
 
     drive.permissions.list({
       fileId: fileId,
-    }).then(res => actions.info(`list :::: ${JSON.stringify(res)}`))
-    .catch(e => {
+    }).then(res => {
+      actions.info(`list :::: ${JSON.stringify(res)}`);
+    }).catch(e => {
       actions.error('Get List Failed');
       throw e;
     });
+  }
+  catch (error) {
+    actions.error(error.JSON);
+    actions.setFailed(e);
+  }
 }
 
 main().catch(e => actions.setFailed(e));
