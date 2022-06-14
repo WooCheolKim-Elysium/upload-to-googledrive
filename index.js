@@ -77,24 +77,7 @@ function zipDirectory(source, out) {
  * Uploads the file to Google Drive
  */
 function uploadToDrive() {
-  actions.info('Uploading file to Google Drive...');
-
-  drive.files.create({
-    requestBody: {
-      name: filename,
-      parents: [folder]
-    },
-    media: {
-      body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
-    }
-  }).then(() => actions.info('File uploaded successfully'))
-    .catch(e => {
-      actions.error('Upload failed');
-      throw e;
-    });
   
-    console.log('hahahahaha');
-
 }
 
 main().catch(e =>  { actions.error(`${e.stack}`); actions.setFailed(e); });
