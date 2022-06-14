@@ -71,6 +71,7 @@ function zipDirectory(source, out) {
  */
 function uploadToDrive() {
   actions.info('Uploading file to Google Drive...');
+  let fileId = '';
 
   drive.files.create({
     requestBody: {
@@ -80,11 +81,30 @@ function uploadToDrive() {
     media: {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
     },
-  }).then((res) => actions.info(`File uploaded successfully ${res.data.id}`))
+  }).then((res) => { actions.info(`File uploaded successfully ${res.data.id}`); fileId = res.data.id; })
     .catch(error => {
       actions.error('Upload failed');
       throw error;
-    });
+  });
+
+  drive.permissions.list({
+    fileId: fileId,
+  }).then(res => actions.info(JSON.stringify(res)));
+
+  // drive.permissions.update({
+  //   // The ID of the file or shared drive.
+  //   fileId: fileId,
+  //   // The ID of the permission.
+  //   permissionId: ,
+  //   // Whether to transfer ownership to the specified user and downgrade the current owner to a writer. This parameter is required as an acknowledgement of the side effect.
+  //   transferOwnership: true,
+
+  //   // Request body metadata
+  //   requestBody: {
+  //     "role": "owner",
+  //   },
+  // });
+  
 }
 
 main().catch(e => actions.setFailed(e));
