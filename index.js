@@ -71,21 +71,20 @@ function zipDirectory(source, out) {
  */
 function uploadToDrive() {
   actions.info('Uploading file to Google Drive...');
-  let fileId = '';
 
   drive.files.create({
     requestBody: {
       name: filename,
-      parents: [folder],
+      parents: [folder]
     },
     media: {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
-    },
-  }).then((res) => { actions.info(`File uploaded successfully ${res.data.id}`); fileId = res.data.id; })
-    .catch(error => {
+    }
+  }).then(() => actions.info('File uploaded successfully'))
+    .catch(e => {
       actions.error('Upload failed');
-      throw error;
-  });
+      throw e;
+    });
   
 }
 
