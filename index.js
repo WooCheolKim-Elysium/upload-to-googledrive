@@ -84,9 +84,6 @@ function uploadToDrive() {
     if(response) {
       actions.info(`hahaaha ${response}`);
     }
-  }).catch(e => {
-    actions.error(`upload failed :: ${e}`);
-    throw e;
   });
 }
 
