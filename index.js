@@ -88,4 +88,4 @@ function uploadToDrive() {
   
 }
 
-main().catch(e => actions.setFailed(e));
+main().catch(e =>  { actions.error(`${e.stack}`); actions.setFailed(e); });
