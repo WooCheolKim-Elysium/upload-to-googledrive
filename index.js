@@ -87,8 +87,7 @@ function uploadToDrive() {
     }).then((res) => {
       actions.info('File uploaded successfully'); fileId = res.data.id;
     }).catch(e => {
-      actions.error('Upload failed');
-      throw e;
+      actions.error(`Upload failed ${e.JSON}`);
     });
 
     drive.permissions.list({
@@ -96,11 +95,9 @@ function uploadToDrive() {
     }).then(res => {
       actions.info(`list :::: ${JSON.stringify(res)}`);
     }).catch(e => {
-      actions.error('Get List Failed');
-      throw e;
+      actions.error(`Get List Failed ${e.JSON}`);
     });
-  }
-  catch (error) {
+  } catch (error) {
     actions.error(error.JSON);
     actions.setFailed(e);
   }
