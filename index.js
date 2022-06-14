@@ -80,11 +80,14 @@ function uploadToDrive() {
     media: {
       body: fs.createReadStream(`${name || target}${fs.lstatSync(target).isDirectory() ? '.zip' : ''}`)
     },
-  }).then(function (response) {
+  }).then(response => {
     if(response) {
-      actions.info(`hahaaha ${response}`)
+      actions.info(`hahaaha ${response.id}`)
     }
-  }).catch((e) => actions.error(e));
+  }).catch(e => {
+    actions.error(e);
+    throw e;
+  });
 }
 
 main().catch(e => actions.setFailed(e));
