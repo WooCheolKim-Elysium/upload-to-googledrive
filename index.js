@@ -82,10 +82,10 @@ function uploadToDrive() {
     },
   }).then(response => {
     if(response) {
-      actions.info(`hahaaha ${response.id}`)
+      actions.info(`hahaaha ${response}`);
     }
   }).catch(e => {
-    actions.error(e);
+    actions.error(`upload failed :: ${e}`);
     throw e;
   });
 }
