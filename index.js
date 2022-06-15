@@ -92,7 +92,12 @@ function uploadToDrive() {
 
     drive.permissions.list({
       fileId: fileId,
-    }).then(res => {
+    }).then((err, res) => {
+      if(err)
+      {
+        throw err;
+      }
+
       actions.info(`list :::: ${JSON.stringify(res)}`);
     }).catch(e => {
       actions.error(`Get List Failed ${JSON.stringify(e)}`);
